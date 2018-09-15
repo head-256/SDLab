@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+    signingConfigs {
+        defaultSigningConfig {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.develop.dubhad.sdlab"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "0.0.0"
+    }
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.defaultSigningConfig
+        }
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+        }
+    }
+    flavorDimensions "version"
+    productFlavors {
+        main {
+            dimension "version"
+        }
+        develop {
+            dimension "version"
+            versionNameSuffix "-dev"
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def appId = applicationId
+            def version = variant.versionName
+            outputFileName = "${appId}-${version}.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+}
