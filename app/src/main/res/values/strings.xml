@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SDLab</string>
+    <string name="app_version_label">App version:</string>
 </resources>
