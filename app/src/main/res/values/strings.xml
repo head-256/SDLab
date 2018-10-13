@@ -2,4 +2,8 @@
     <string name="app_name">SDLab</string>
     <string name="app_version_label">App version:</string>
     <string name="imei_label">IMEI:</string>
+
+    <string name="permission_granted">Permission granted</string>
+    <string name="permission_necessary">Permission necessary</string>
+    <string name="read_phone_state_rationale">Read phone state permission is necessary for IMEI displaying.</string>
 </resources>
