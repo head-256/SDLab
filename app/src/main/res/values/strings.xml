@@ -6,4 +6,7 @@
     <string name="permission_granted">Permission granted</string>
     <string name="permission_necessary">Permission necessary</string>
     <string name="read_phone_state_rationale">Read phone state permission is necessary for IMEI displaying.</string>
+
+    <string name="profile_menu_item">Profile</string>
+    <string name="empty_menu_item">Empty</string>
 </resources>
