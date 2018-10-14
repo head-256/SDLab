@@ -1,5 +1,6 @@
 package com.develop.dubhad.sdlab;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -78,16 +80,10 @@ public class EditProfileFragment extends Fragment {
 
             Glide.with(this)
                     .load(avatarPath)
+                    .apply(RequestOptions.centerCropTransform())
                     .into(avatarEditView);
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
     }
 
     private void saveProfileData() {
@@ -117,6 +113,7 @@ public class EditProfileFragment extends Fragment {
 
         Glide.with(this)
                 .load(avatarPath)
+                .apply(RequestOptions.centerCropTransform())
                 .into(avatarEditView);
     }
 }

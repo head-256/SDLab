@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
@@ -76,6 +77,7 @@ public class ProfileFragment extends Fragment {
 
         Glide.with(this)
                 .load(avatar)
+                .apply(RequestOptions.centerCropTransform())
                 .into(avatarView);
     }
 }
