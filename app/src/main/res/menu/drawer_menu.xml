@@ -8,8 +8,10 @@
             android:id="@+id/infoFragment"
             android:title="@string/empty_menu_item" />
         <item
+            android:id="@+id/firstEmptyFragment"
             android:title="@string/empty_menu_item" />
         <item
+            android:id="@+id/secondEmptyFragment"
             android:title="@string/empty_menu_item" />
     </group>
 </menu>

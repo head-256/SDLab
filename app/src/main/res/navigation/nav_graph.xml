@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_startFragment_to_infoFragment"
             app:destination="@id/infoFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_firstEmptyFragment"
+            app:destination="@id/firstEmptyFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_secondEmptyFragment"
+            app:destination="@id/secondEmptyFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -37,4 +43,14 @@
         android:label="edit_profile_layout"
         tools:layout="@layout/edit_profile_layout" >
     </fragment>
+    <fragment
+        android:id="@+id/firstEmptyFragment"
+        android:name="com.develop.dubhad.sdlab.FirstEmptyFragment"
+        android:label="fragment_first_empty"
+        tools:layout="@layout/fragment_first_empty" ><deepLink app:uri="sdapp://sdlab/page/2"/></fragment>
+    <fragment
+        android:id="@+id/secondEmptyFragment"
+        android:name="com.develop.dubhad.sdlab.SecondEmptyFragment"
+        android:label="fragment_second_empty"
+        tools:layout="@layout/fragment_second_empty" ><deepLink app:uri="sdapp://sdlab/page/3"/></fragment>
 </navigation>
