@@ -24,7 +24,7 @@
         tools:layout="@layout/profile_layout" >
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" />
+            app:destination="@id/editProfileFragment" /><deepLink app:uri="sdapp://sdlab/page/1"/>
     </fragment>
     <fragment
         android:id="@+id/infoFragment"
