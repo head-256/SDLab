@@ -22,12 +22,12 @@
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
             <ImageView
+                android:id="@+id/avatarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.7"
-                android:src="@drawable/peka"/>
+                app:layout_collapseParallaxMultiplier="0.7"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

@@ -1,13 +1,20 @@
 package com.develop.dubhad.sdlab;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
@@ -23,6 +30,8 @@ public class EditProfileFragment extends Fragment {
     private EditText surnameEditView;
     private EditText phoneNumberEditView;
     private EditText emailEditView;
+    private ImageView avatarEditView;
+    private String avatarPath;
 
     @Nullable
     @Override
@@ -47,13 +56,38 @@ public class EditProfileFragment extends Fragment {
                 Navigation.findNavController(view).navigateUp();
             }
         });
+
+        avatarEditView = view.findViewById(R.id.avatarEditView);
+        avatarEditView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImagePicker.create(EditProfileFragment.this)
+                        .single()
+                        .start();
+            }
+        });
+        fillEditProfileData();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            Image image = ImagePicker.getFirstImageOrNull(data);
+            avatarPath = image.getPath();
+            Toast.makeText(getContext(), image.getName(), Toast.LENGTH_SHORT).show();
+
+            Glide.with(this)
+                    .load(avatarPath)
+                    .into(avatarEditView);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        fillEditProfileData();
+
     }
 
     private void saveProfileData() {
@@ -63,6 +97,7 @@ public class EditProfileFragment extends Fragment {
         editor.putString(getString(R.string.surname_field_key), surnameEditView.getText().toString());
         editor.putString(getString(R.string.phone_field_key), phoneNumberEditView.getText().toString());
         editor.putString(getString(R.string.email_field_key), emailEditView.getText().toString());
+        editor.putString(getString(R.string.avatar_field_key), avatarPath);
         editor.apply();
     }
 
@@ -72,10 +107,16 @@ public class EditProfileFragment extends Fragment {
         String surname = sharedPref.getString(getString(R.string.surname_field_key), "");
         String phone = sharedPref.getString(getString(R.string.phone_field_key), "");
         String email = sharedPref.getString(getString(R.string.email_field_key), "");
+        avatarPath = sharedPref.getString(getString(R.string.avatar_field_key),
+                Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/" + R.drawable.peka).toString());
 
         nameEditView.setText(name);
         surnameEditView.setText(surname);
         phoneNumberEditView.setText(phone);
         emailEditView.setText(email);
+
+        Glide.with(this)
+                .load(avatarPath)
+                .into(avatarEditView);
     }
 }
