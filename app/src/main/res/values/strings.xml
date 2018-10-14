@@ -9,6 +9,7 @@
 
     <string name="profile_menu_item">Profile</string>
     <string name="empty_menu_item">Empty</string>
+    <string name="info_menu_item">Info</string>
 
     <string name="name_field_key">name</string>
     <string name="surname_field_key">surname</string>
