@@ -21,10 +21,19 @@
         android:id="@+id/profileFragment"
         android:name="com.develop.dubhad.sdlab.ProfileFragment"
         android:label="profile_layout"
-        tools:layout="@layout/profile_layout" />
+        tools:layout="@layout/profile_layout" >
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/infoFragment"
         android:name="com.develop.dubhad.sdlab.InfoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.develop.dubhad.sdlab.EditProfileFragment"
+        android:label="edit_profile_layout"
+        tools:layout="@layout/edit_profile_layout" />
 </navigation>
