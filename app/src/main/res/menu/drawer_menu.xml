@@ -2,9 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/profile"
+            android:id="@+id/profileFragment"
             android:title="@string/profile_menu_item" />
         <item
+            android:id="@+id/infoFragment"
             android:title="@string/empty_menu_item" />
         <item
             android:title="@string/empty_menu_item" />
