@@ -35,5 +35,6 @@
         android:id="@+id/editProfileFragment"
         android:name="com.develop.dubhad.sdlab.EditProfileFragment"
         android:label="edit_profile_layout"
-        tools:layout="@layout/edit_profile_layout" />
+        tools:layout="@layout/edit_profile_layout" >
+    </fragment>
 </navigation>

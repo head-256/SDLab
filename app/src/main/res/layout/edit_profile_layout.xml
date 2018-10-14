@@ -35,4 +35,13 @@
 
     <include layout="@layout/edit_content_scrolling" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/confirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        android:src="@drawable/ic_done_black_24dp"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

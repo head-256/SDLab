@@ -23,7 +23,7 @@
             android:focusable="true">
 
             <ImageView
-                android:id="@+id/nameIcon"
+                android:id="@+id/nameEditIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -31,11 +31,11 @@
                 android:src="@drawable/ic_person_black_24dp"/>
 
             <EditText
-                android:id="@+id/nameView"
+                android:id="@+id/nameEditView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toEndOf="@id/nameIcon"
+                android:layout_toEndOf="@id/nameEditIcon"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -44,10 +44,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/nameView"
+                android:layout_below="@id/nameEditView"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/nameIcon"
+                android:layout_toEndOf="@id/nameEditIcon"
                 android:text="Name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
@@ -63,7 +63,7 @@
             android:focusable="true">
 
             <EditText
-                android:id="@+id/surnameView"
+                android:id="@+id/surnameEditView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="56dp"
@@ -75,7 +75,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/surnameView"
+                android:layout_below="@id/surnameEditView"
                 android:layout_marginStart="56dp"
                 android:layout_marginTop="8dp"
                 android:text="Surname"
@@ -95,7 +95,7 @@
             android:focusable="true">
 
             <ImageView
-                android:id="@+id/phoneIcon"
+                android:id="@+id/phoneEditIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -103,11 +103,11 @@
                 android:src="@drawable/ic_phone_black_24dp"/>
 
             <EditText
-                android:id="@+id/phoneNumberView"
+                android:id="@+id/phoneNumberEditView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toEndOf="@id/phoneIcon"
+                android:layout_toEndOf="@id/phoneEditIcon"
                 android:inputType="phone"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
@@ -115,10 +115,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/phoneNumberView"
+                android:layout_below="@id/phoneNumberEditView"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/phoneIcon"
+                android:layout_toEndOf="@id/phoneEditIcon"
                 android:text="Phone"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
@@ -137,7 +137,7 @@
             android:focusable="true">
 
             <ImageView
-                android:id="@+id/emailIcon"
+                android:id="@+id/emailEditIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -145,11 +145,11 @@
                 android:src="@drawable/ic_email_black_24dp"/>
 
             <EditText
-                android:id="@+id/emailView"
+                android:id="@+id/emailEditView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toEndOf="@id/emailIcon"
+                android:layout_toEndOf="@id/emailEditIcon"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:inputType="textEmailAddress"
@@ -159,10 +159,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/emailView"
+                android:layout_below="@id/emailEditView"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/emailIcon"
+                android:layout_toEndOf="@id/emailEditIcon"
                 android:text="Email"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
