@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/startFragment"
         android:name="com.develop.dubhad.sdlab.StartFragment"
-        android:label="fragment_start"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_start" >
         <action
             android:id="@+id/action_startFragment_to_profileFragment"
@@ -26,31 +26,34 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.develop.dubhad.sdlab.ProfileFragment"
-        android:label="profile_layout"
+        android:label="@string/profile_page_label"
         tools:layout="@layout/profile_layout" >
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" /><deepLink app:uri="sdapp://sdlab/page/1"/>
+            app:destination="@id/editProfileFragment" />
+        <deepLink app:uri="sdapp://sdlab/page/1"/>
     </fragment>
     <fragment
         android:id="@+id/infoFragment"
         android:name="com.develop.dubhad.sdlab.InfoFragment"
-        android:label="fragment_info"
+        android:label="@string/info_page_label"
         tools:layout="@layout/fragment_info" />
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.develop.dubhad.sdlab.EditProfileFragment"
-        android:label="edit_profile_layout"
+        android:label="@string/edit_profile_page_label"
         tools:layout="@layout/edit_profile_layout" >
     </fragment>
     <fragment
         android:id="@+id/firstEmptyFragment"
         android:name="com.develop.dubhad.sdlab.FirstEmptyFragment"
-        android:label="fragment_first_empty"
-        tools:layout="@layout/fragment_first_empty" ><deepLink app:uri="sdapp://sdlab/page/2"/></fragment>
+        android:label="@string/empty_page_label"
+        tools:layout="@layout/fragment_first_empty" >
+        <deepLink app:uri="sdapp://sdlab/page/2"/></fragment>
     <fragment
         android:id="@+id/secondEmptyFragment"
         android:name="com.develop.dubhad.sdlab.SecondEmptyFragment"
-        android:label="fragment_second_empty"
-        tools:layout="@layout/fragment_second_empty" ><deepLink app:uri="sdapp://sdlab/page/3"/></fragment>
+        android:label="@string/empty_page_label"
+        tools:layout="@layout/fragment_second_empty" >
+        <deepLink app:uri="sdapp://sdlab/page/3"/></fragment>
 </navigation>
