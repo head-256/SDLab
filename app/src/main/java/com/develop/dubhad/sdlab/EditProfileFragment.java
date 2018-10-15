@@ -1,20 +1,16 @@
 package com.develop.dubhad.sdlab;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+import com.develop.dubhad.sdlab.Util.ImageUtil;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,11 +29,29 @@ public class EditProfileFragment extends Fragment {
     private EditText phoneNumberEditView;
     private EditText emailEditView;
     private ImageView avatarEditView;
+
     private String avatarPath;
+
+    private View.OnClickListener confirmProfileEditListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            confirmProfileEdit(view);
+        }
+    };
+
+    private View.OnClickListener avatarEditListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            pickImage();
+        }
+    };
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
         return inflater.inflate(R.layout.edit_profile_layout, container, false);
     }
 
@@ -50,40 +64,39 @@ public class EditProfileFragment extends Fragment {
         phoneNumberEditView = view.findViewById(R.id.phoneNumberEditView);
         emailEditView = view.findViewById(R.id.emailEditView);
 
-        FloatingActionButton confirmButton = view.findViewById(R.id.confirmButton);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveProfileData();
-                Navigation.findNavController(view).navigateUp();
-            }
-        });
-
         avatarEditView = view.findViewById(R.id.avatarEditView);
-        avatarEditView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ImagePicker.create(EditProfileFragment.this)
-                        .single()
-                        .start();
-            }
-        });
+        avatarEditView.setOnClickListener(avatarEditListener);
+
+        FloatingActionButton confirmButton = view.findViewById(R.id.confirmButton);
+        confirmButton.setOnClickListener(confirmProfileEditListener);
+
         fillEditProfileData();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        handlePickedImage(requestCode, resultCode, data);
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void pickImage() {
+        ImagePicker.create(this)
+                .single()
+                .start();
+    }
+
+    private void handlePickedImage(int requestCode, int resultCode, Intent data) {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             Image image = ImagePicker.getFirstImageOrNull(data);
             avatarPath = image.getPath();
-            Toast.makeText(getContext(), image.getName(), Toast.LENGTH_SHORT).show();
-
-            Glide.with(this)
-                    .load(avatarPath)
-                    .apply(RequestOptions.centerCropTransform())
-                    .into(avatarEditView);
+            ImageUtil.loadImage(getContext(), avatarPath, avatarEditView);
         }
-        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void confirmProfileEdit(View view) {
+        saveProfileData();
+        Navigation.findNavController(view).navigateUp();
     }
 
     private void saveProfileData() {
@@ -103,17 +116,13 @@ public class EditProfileFragment extends Fragment {
         String surname = sharedPref.getString(getString(R.string.surname_field_key), "");
         String phone = sharedPref.getString(getString(R.string.phone_field_key), "");
         String email = sharedPref.getString(getString(R.string.email_field_key), "");
-        avatarPath = sharedPref.getString(getString(R.string.avatar_field_key),
-                Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/" + R.drawable.peka).toString());
+        avatarPath = sharedPref.getString(getString(R.string.avatar_field_key), ImageUtil.DEFAULT_IMAGE_PATH);
 
         nameEditView.setText(name);
         surnameEditView.setText(surname);
         phoneNumberEditView.setText(phone);
         emailEditView.setText(email);
 
-        Glide.with(this)
-                .load(avatarPath)
-                .apply(RequestOptions.centerCropTransform())
-                .into(avatarEditView);
+        ImageUtil.loadImage(getContext(), avatarPath, avatarEditView);
     }
 }
