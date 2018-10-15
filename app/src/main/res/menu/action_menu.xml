@@ -5,5 +5,5 @@
         android:id="@+id/infoFragment"
         android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/info_menu_item"
-        app:showAsAction="never"/>
+        app:showAsAction="ifRoom"/>
 </menu>

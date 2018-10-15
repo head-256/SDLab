@@ -1,8 +1,12 @@
 package com.develop.dubhad.sdlab;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.develop.dubhad.sdlab.Util.ImageUtil;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -14,11 +18,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+
+    private TextView headerNameView;
+    private TextView headerEmailView;
+    private CircleImageView headerCircleView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +39,13 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
+        headerNameView = navigationView.getHeaderView(0).findViewById(R.id.headerNameView);
+        headerEmailView = navigationView.getHeaderView(0).findViewById(R.id.headerEmailView);
+        headerCircleView = navigationView.getHeaderView(0).findViewById(R.id.headerCircleView);
+
         setupNavigation();
+
+        setupDrawerHeader();
     }
 
     @Override
@@ -64,5 +79,17 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    private void setupDrawerHeader() {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        String name = sharedPref.getString(getString(R.string.name_field_key), "");
+        String email = sharedPref.getString(getString(R.string.email_field_key), "");
+        String avatar = sharedPref.getString(getString(R.string.avatar_field_key), ImageUtil.DEFAULT_IMAGE_PATH);
+
+        headerNameView.setText(name);
+        headerEmailView.setText(email);
+
+        ImageUtil.loadImage(this, avatar, headerCircleView);
     }
 }
