@@ -3,6 +3,7 @@ package com.develop.dubhad.sdlab;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,10 +16,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
-import static com.develop.dubhad.sdlab.Util.PermissionUtil.hasPermission;
-import static com.develop.dubhad.sdlab.Util.PermissionUtil.requestPermission;
 
 public class InfoFragment extends Fragment {
 
@@ -29,6 +29,7 @@ public class InfoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
         return inflater.inflate(R.layout.fragment_info, container, false);
     }
 
@@ -40,8 +41,12 @@ public class InfoFragment extends Fragment {
         appVersionView.setText(getAppVersionName());
 
         imeiView = view.findViewById(R.id.imeiView);
-        if (!hasPermission(getContext(), Manifest.permission.READ_PHONE_STATE)) {
-            requestPermission(getActivity(), Manifest.permission.READ_PHONE_STATE, REQUEST_READ_PHONE_STATE,
+        setImei();
+    }
+
+    private void setImei() {
+        if (!hasPermission(Manifest.permission.READ_PHONE_STATE)) {
+            requestPermission(Manifest.permission.READ_PHONE_STATE, REQUEST_READ_PHONE_STATE,
                     getString(R.string.read_phone_state_rationale));
         } else {
             imeiView.setText(getImei());
@@ -76,5 +81,30 @@ public class InfoFragment extends Fragment {
                 }
             }
         }
+    }
+
+    private boolean hasPermission(String permission) {
+        return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission(String permission, int requestCode, String rationale) {
+        if (shouldShowRequestPermissionRationale(permission)) {
+            showPermissionRationale(new String[]{permission}, requestCode, rationale);
+        }
+        else {
+            requestPermissions(new String[]{permission}, requestCode);
+        }
+    }
+
+    private void showPermissionRationale(final String[] permissions, final int requestCode, String message) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(requireContext());
+        alertBuilder.setCancelable(true);
+        alertBuilder.setTitle(requireContext().getString(R.string.permission_necessary));
+        alertBuilder.setMessage(message);
+        alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                requestPermissions(permissions, requestCode);}});
+        AlertDialog alert = alertBuilder.create();
+        alert.show();
     }
 }
