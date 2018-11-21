@@ -86,6 +86,12 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
 
+    implementation "android.arch.persistence.room:runtime:2.1.0-alpha02"
+    annotationProcessor "android.arch.persistence.room:compiler:2.1.0-alpha02"
+    
+    implementation "android.arch.lifecycle:extensions:2.0.0"
+    annotationProcessor "android.arch.lifecycle:compiler:2.0.0"
+    
     implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.1'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
