@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_startFragment_to_secondEmptyFragment"
             app:destination="@id/secondEmptyFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -56,4 +59,9 @@
         android:label="@string/empty_page_label"
         tools:layout="@layout/fragment_second_empty" >
         <deepLink app:uri="sdapp://sdlab/page/3"/></fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.develop.dubhad.sdlab.SignInFragment"
+        android:label="Sign in"
+        tools:layout="@layout/fragment_sign_in" />
 </navigation>

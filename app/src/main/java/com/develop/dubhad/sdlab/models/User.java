@@ -11,6 +11,12 @@ public class User {
     private int id;
     
     @NonNull
+    private String login;
+    
+    @NonNull
+    private String password;
+    
+    @NonNull
     private String name;
     
     private String surname;
@@ -21,12 +27,10 @@ public class User {
     
     private String picture;
 
-    public User(@NonNull String name, String surname, String phoneNumber, String email, String picture) {
+    public User(@NonNull String login, @NonNull String password, @NonNull String name) {
+        this.login = login;
+        this.password = password;
         this.name = name;
-        this.surname = surname;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.picture = picture;
     }
 
     public void setId(int id) {
@@ -76,5 +80,23 @@ public class User {
 
     public String getPicture() {
         return picture;
+    }
+
+    @NonNull
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(@NonNull String login) {
+        this.login = login;
+    }
+
+    @NonNull
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@NonNull String password) {
+        this.password = password;
     }
 }

@@ -28,4 +28,12 @@
     <string name="edit_profile_page_label">Edit Profile</string>
     <string name="info_page_label">About</string>
     <string name="empty_page_label">Empty</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string name="sign_in">Sign In</string>
+    <string name="login_hint">Login</string>
+    <string name="password_hint">Password</string>
+    <string name="sign_in_label">Sign in</string>
 </resources>
