@@ -13,6 +13,9 @@ public interface UserDao {
     @Insert
     void insertUser(User user);
     
+    @Query("DELETE FROM User")
+    void deleteAllUsers();
+    
     @Query("SELECT * FROM User")
     LiveData<List<User>> getAllUsers();
     
