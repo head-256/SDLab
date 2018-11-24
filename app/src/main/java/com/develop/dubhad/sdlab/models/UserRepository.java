@@ -23,6 +23,10 @@ public class UserRepository {
         return users;
     }
     
+    public User getUser(String login, String password) {
+        return userDao.getUser(login, password);
+    }
+    
     public void insertUser(User user) {
         new insertUserAsyncTask(userDao).execute(user);
     }

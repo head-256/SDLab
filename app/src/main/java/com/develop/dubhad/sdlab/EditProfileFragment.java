@@ -9,18 +9,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.develop.dubhad.sdlab.Util.ImageUtil;
+import com.develop.dubhad.sdlab.authentication.Authentication;
 import com.develop.dubhad.sdlab.models.User;
 import com.develop.dubhad.sdlab.models.UserViewModel;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -33,7 +31,7 @@ public class EditProfileFragment extends Fragment {
     private ImageView avatarEditView;
 
     private String avatarPath;
-    
+
     private UserViewModel userViewModel;
 
     private View.OnClickListener confirmProfileEditListener = new View.OnClickListener() {
@@ -64,7 +62,7 @@ public class EditProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        
+
         nameEditView = view.findViewById(R.id.nameEditView);
         surnameEditView = view.findViewById(R.id.surnameEditView);
         phoneNumberEditView = view.findViewById(R.id.phoneNumberEditView);
@@ -106,44 +104,33 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void saveProfileData() {
-        userViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
-            @Override
-            public void onChanged(@Nullable final List<User> users) {
-                User currentUser = users.get(0);
-                
-                currentUser.setName(nameEditView.getText().toString());
-                currentUser.setSurname(surnameEditView.getText().toString());
-                currentUser.setPhoneNumber(phoneNumberEditView.getText().toString());
-                currentUser.setEmail(emailEditView.getText().toString());
-                currentUser.setPicture(avatarPath);
-                
-                userViewModel.updateUser(currentUser);
-            }
-        });
+        User currentUser = Authentication.getCurrentUser();
+
+        currentUser.setName(nameEditView.getText().toString());
+        currentUser.setSurname(surnameEditView.getText().toString());
+        currentUser.setPhoneNumber(phoneNumberEditView.getText().toString());
+        currentUser.setEmail(emailEditView.getText().toString());
+        currentUser.setPicture(avatarPath);
+
+        userViewModel.updateUser(currentUser);
     }
 
     private void fillEditProfileData() {
+        User currentUser = Authentication.getCurrentUser();
+        String name = currentUser.getName();
+        String surname = currentUser.getSurname();
+        String phone = currentUser.getPhoneNumber();
+        String email = currentUser.getEmail();
+        avatarPath = currentUser.getPicture();
+        if (avatarPath == null) {
+            avatarPath = ImageUtil.DEFAULT_IMAGE_PATH;
+        }
 
-        userViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
-            @Override
-            public void onChanged(@Nullable final List<User> users) {
-                User currentUser = users.get(0);
-                String name = currentUser.getName();
-                String surname = currentUser.getSurname();
-                String phone = currentUser.getPhoneNumber();
-                String email = currentUser.getEmail();
-                avatarPath = currentUser.getPicture();
-                if (avatarPath == null) {
-                    avatarPath = ImageUtil.DEFAULT_IMAGE_PATH;
-                }
+        nameEditView.setText(name);
+        surnameEditView.setText(surname);
+        phoneNumberEditView.setText(phone);
+        emailEditView.setText(email);
 
-                nameEditView.setText(name);
-                surnameEditView.setText(surname);
-                phoneNumberEditView.setText(phone);
-                emailEditView.setText(email);
-
-                ImageUtil.loadImage(getContext(), avatarPath, avatarEditView);
-            }
-        });
+        ImageUtil.loadImage(getContext(), avatarPath, avatarEditView);
     }
 }
