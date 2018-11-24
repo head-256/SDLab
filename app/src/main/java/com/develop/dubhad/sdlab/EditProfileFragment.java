@@ -1,8 +1,6 @@
 package com.develop.dubhad.sdlab;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +9,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.develop.dubhad.sdlab.Util.ImageUtil;
+import com.develop.dubhad.sdlab.models.User;
+import com.develop.dubhad.sdlab.models.UserViewModel;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Objects;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 public class EditProfileFragment extends Fragment {
@@ -31,6 +33,8 @@ public class EditProfileFragment extends Fragment {
     private ImageView avatarEditView;
 
     private String avatarPath;
+    
+    private UserViewModel userViewModel;
 
     private View.OnClickListener confirmProfileEditListener = new View.OnClickListener() {
         @Override
@@ -59,6 +63,8 @@ public class EditProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        
         nameEditView = view.findViewById(R.id.nameEditView);
         surnameEditView = view.findViewById(R.id.surnameEditView);
         phoneNumberEditView = view.findViewById(R.id.phoneNumberEditView);
@@ -100,29 +106,44 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void saveProfileData() {
-        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(getString(R.string.name_field_key), nameEditView.getText().toString());
-        editor.putString(getString(R.string.surname_field_key), surnameEditView.getText().toString());
-        editor.putString(getString(R.string.phone_field_key), phoneNumberEditView.getText().toString());
-        editor.putString(getString(R.string.email_field_key), emailEditView.getText().toString());
-        editor.putString(getString(R.string.avatar_field_key), avatarPath);
-        editor.apply();
+        userViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable final List<User> users) {
+                User currentUser = users.get(0);
+                
+                currentUser.setName(nameEditView.getText().toString());
+                currentUser.setSurname(surnameEditView.getText().toString());
+                currentUser.setPhoneNumber(phoneNumberEditView.getText().toString());
+                currentUser.setEmail(emailEditView.getText().toString());
+                currentUser.setPicture(avatarPath);
+                
+                userViewModel.updateUser(currentUser);
+            }
+        });
     }
 
     private void fillEditProfileData() {
-        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
-        String name = sharedPref.getString(getString(R.string.name_field_key), "");
-        String surname = sharedPref.getString(getString(R.string.surname_field_key), "");
-        String phone = sharedPref.getString(getString(R.string.phone_field_key), "");
-        String email = sharedPref.getString(getString(R.string.email_field_key), "");
-        avatarPath = sharedPref.getString(getString(R.string.avatar_field_key), ImageUtil.DEFAULT_IMAGE_PATH);
 
-        nameEditView.setText(name);
-        surnameEditView.setText(surname);
-        phoneNumberEditView.setText(phone);
-        emailEditView.setText(email);
+        userViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable final List<User> users) {
+                User currentUser = users.get(0);
+                String name = currentUser.getName();
+                String surname = currentUser.getSurname();
+                String phone = currentUser.getPhoneNumber();
+                String email = currentUser.getEmail();
+                avatarPath = currentUser.getPicture();
+                if (avatarPath == null) {
+                    avatarPath = ImageUtil.DEFAULT_IMAGE_PATH;
+                }
 
-        ImageUtil.loadImage(getContext(), avatarPath, avatarEditView);
+                nameEditView.setText(name);
+                surnameEditView.setText(surname);
+                phoneNumberEditView.setText(phone);
+                emailEditView.setText(email);
+
+                ImageUtil.loadImage(getContext(), avatarPath, avatarEditView);
+            }
+        });
     }
 }

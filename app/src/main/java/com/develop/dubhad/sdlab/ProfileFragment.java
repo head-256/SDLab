@@ -1,7 +1,5 @@
 package com.develop.dubhad.sdlab;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +8,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.develop.dubhad.sdlab.Util.ImageUtil;
+import com.develop.dubhad.sdlab.models.User;
+import com.develop.dubhad.sdlab.models.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Objects;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 public class ProfileFragment extends Fragment {
@@ -26,6 +28,8 @@ public class ProfileFragment extends Fragment {
     private TextView phoneNumberView;
     private TextView emailView;
     private ImageView avatarView;
+    
+    private UserViewModel userViewModel;
 
     private View.OnClickListener editProfileListener = new View.OnClickListener() {
         @Override
@@ -47,6 +51,8 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        
         nameView = view.findViewById(R.id.nameView);
         surnameView = view.findViewById(R.id.surnameView);
         phoneNumberView = view.findViewById(R.id.phoneNumberView);
@@ -65,18 +71,26 @@ public class ProfileFragment extends Fragment {
     }
 
     private void fillProfileData() {
-        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
-        String name = sharedPref.getString(getString(R.string.name_field_key), "");
-        String surname = sharedPref.getString(getString(R.string.surname_field_key), "");
-        String phone = sharedPref.getString(getString(R.string.phone_field_key), "");
-        String email = sharedPref.getString(getString(R.string.email_field_key), "");
-        String avatar = sharedPref.getString(getString(R.string.avatar_field_key), ImageUtil.DEFAULT_IMAGE_PATH);
+        userViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable final List<User> users) {
+                User currentUser = users.get(0);
+                String name = currentUser.getName();
+                String surname = currentUser.getSurname();
+                String phone = currentUser.getPhoneNumber();
+                String email = currentUser.getEmail();
+                String avatar = currentUser.getPicture();
+                if (avatar == null) {
+                    avatar = ImageUtil.DEFAULT_IMAGE_PATH;
+                }
 
-        nameView.setText(name);
-        surnameView.setText(surname);
-        phoneNumberView.setText(phone);
-        emailView.setText(email);
+                nameView.setText(name);
+                surnameView.setText(surname);
+                phoneNumberView.setText(phone);
+                emailView.setText(email);
 
-        ImageUtil.loadImage(getContext(), avatar, avatarView);
+                ImageUtil.loadImage(getContext(), avatar, avatarView);
+            }
+        });
     }
 }

@@ -33,6 +33,26 @@ public class User {
         this.id = id;
     }
 
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     public int getId() {
         return id;
     }

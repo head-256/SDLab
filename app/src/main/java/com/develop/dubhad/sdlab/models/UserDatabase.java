@@ -22,7 +22,6 @@ public abstract class UserDatabase extends RoomDatabase {
                 if (userDatabase == null) {
                     userDatabase = Room
                             .databaseBuilder(context.getApplicationContext(), UserDatabase.class, "user_db")
-                            .addCallback(roomDatabaseCallback)
                             .build();
                 }
             }

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 @Dao
 public interface UserDao {
@@ -15,6 +16,9 @@ public interface UserDao {
     
     @Query("DELETE FROM User")
     void deleteAllUsers();
+    
+    @Update
+    void updateUser(User user);
     
     @Query("SELECT * FROM User")
     LiveData<List<User>> getAllUsers();
