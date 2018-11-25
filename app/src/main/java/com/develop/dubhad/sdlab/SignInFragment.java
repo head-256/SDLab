@@ -63,7 +63,7 @@ public class SignInFragment extends Fragment implements SignInResultListener {
 
     @Override
     public void onSignInComplete(User user) {
-        Navigation.findNavController(getView()).navigate(R.id.profileFragment);
+        Navigation.findNavController(getView()).navigate(R.id.action_signInFragment_to_profileFragment);
         Log.d("RESULT", "SUCCESS");
     }
 

@@ -28,7 +28,7 @@ public class ProfileFragment extends Fragment {
     private View.OnClickListener editProfileListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Navigation.findNavController(view).navigate(R.id.editProfileFragment);
+            Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_editProfileFragment);
         }
     };
 

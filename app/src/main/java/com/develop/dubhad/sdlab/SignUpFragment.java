@@ -62,7 +62,7 @@ public class SignUpFragment extends Fragment implements SignUpResultListener {
 
     @Override
     public void onSignUpSuccess(User user) {
-        Navigation.findNavController(getView()).navigate(R.id.signInFragment);
+        Navigation.findNavController(getView()).navigate(R.id.action_signUpFragment_to_signInFragment);
     }
 
     @Override

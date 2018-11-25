@@ -62,14 +62,5 @@
             android:padding="12dp"
             android:text="@string/sign_in_label" />
 
-        <TextView
-            android:id="@+id/link_signup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:gravity="center"
-            android:text="No account yet? Create one"
-            android:textSize="16sp" />
-
     </LinearLayout>
 </ScrollView>
