@@ -7,7 +7,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.develop.dubhad.sdlab.Util.ImageUtil;
+import com.develop.dubhad.sdlab.authentication.Authentication;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNavigation() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);
 
@@ -72,13 +74,29 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        drawerLayout.closeDrawers();
-                        return true;
+                        if (!Authentication.isAuthenticated()) {
+                            Snackbar.make(findViewById(android.R.id.content), "Sign in, please", Snackbar.LENGTH_SHORT).show();
+                            return false;
+                        } else {
+                            menuItem.setChecked(true);
+                            switch (menuItem.getItemId()) {
+                                case R.id.profileFragment:
+                                    navController.navigate(R.id.profileFragment);
+                                    break;
+                                case R.id.firstEmptyFragment:
+                                    navController.navigate(R.id.firstEmptyFragment);
+                                    break;
+                                case R.id.secondEmptyFragment:
+                                    navController.navigate(R.id.secondEmptyFragment);
+                                    break;
+                            }
+                            drawerLayout.closeDrawers();
+                            return true;
+                        }
                     }
                 });
 
-        NavigationUI.setupWithNavController(navigationView, navController);
+        //NavigationUI.setupWithNavController(navigationView, navController);
     }
 
     private void setupDrawerHeader() {

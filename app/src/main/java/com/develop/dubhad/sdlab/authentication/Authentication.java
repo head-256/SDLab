@@ -20,6 +20,10 @@ public class Authentication {
         return currentUser;
     }
     
+    public static boolean isAuthenticated() {
+        return currentUser != null;
+    }
+    
     public static void signIn(SignInResultListener signInResultListener, String login, String password) {
         new signInAsyncTask(signInResultListener, userRepository).execute(login, password);
     }
