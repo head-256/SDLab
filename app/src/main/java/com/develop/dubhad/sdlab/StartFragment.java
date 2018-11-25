@@ -7,20 +7,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 
 public class StartFragment extends Fragment {
-    
-    private Button signInButton;
-    private Button signUpButton;
     
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -29,28 +24,6 @@ public class StartFragment extends Fragment {
 
         setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_start, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        
-        signInButton = view.findViewById(R.id.sign_in_button);
-        signUpButton = view.findViewById(R.id.sign_up_button);
-        
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.signInFragment);
-            }
-        });
-        
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.signUpFragment);
-            }
-        });
     }
 
     @Override

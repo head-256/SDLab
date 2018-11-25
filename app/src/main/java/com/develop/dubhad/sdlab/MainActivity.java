@@ -1,13 +1,14 @@
 package com.develop.dubhad.sdlab;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.develop.dubhad.sdlab.Util.ImageUtil;
 import com.develop.dubhad.sdlab.authentication.Authentication;
+import com.develop.dubhad.sdlab.models.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -27,9 +28,12 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
-    private TextView headerNameView;
+    private TextView headerLoginView;
     private TextView headerEmailView;
     private CircleImageView headerCircleView;
+    
+    private Button signInButton;
+    private Button signUpButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,13 +45,15 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
-        headerNameView = navigationView.getHeaderView(0).findViewById(R.id.headerNameView);
-        headerEmailView = navigationView.getHeaderView(0).findViewById(R.id.headerEmailView);
-        headerCircleView = navigationView.getHeaderView(0).findViewById(R.id.headerCircleView);
+        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                setupDrawerHeader();
+            }
+        });
 
         setupNavigation();
-
-        setupDrawerHeader();
     }
 
     @Override
@@ -100,12 +106,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDrawerHeader() {
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        String name = sharedPref.getString(getString(R.string.name_field_key), "");
-        String email = sharedPref.getString(getString(R.string.email_field_key), "");
-        String avatar = sharedPref.getString(getString(R.string.avatar_field_key), ImageUtil.DEFAULT_IMAGE_PATH);
+        User currentUser = Authentication.getCurrentUser();
+        if (currentUser == null) {
+            signInButton = navigationView.getHeaderView(0).findViewById(R.id.sign_in);
+            signUpButton = navigationView.getHeaderView(0).findViewById(R.id.sign_up);
+            
+            signInButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.signInFragment);
+                    drawerLayout.closeDrawers();
+                }
+            });
+            
+            signUpButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.signUpFragment);
+                    drawerLayout.closeDrawers();
+                }
+            });
+            
+            return;
+        }
 
-        headerNameView.setText(name);
+        navigationView.removeHeaderView(navigationView.getHeaderView(0));
+        navigationView.inflateHeaderView(R.layout.drawer_header);
+        
+        headerLoginView = navigationView.getHeaderView(0).findViewById(R.id.headerNameView);
+        headerEmailView = navigationView.getHeaderView(0).findViewById(R.id.headerEmailView);
+        headerCircleView = navigationView.getHeaderView(0).findViewById(R.id.headerCircleView);
+        
+        String login = currentUser.getLogin();
+        String email = currentUser.getEmail();
+        String avatar = currentUser.getPicture();
+
+        headerLoginView.setText(login);
         headerEmailView.setText(email);
 
         ImageUtil.loadImage(this, avatar, headerCircleView);

@@ -64,6 +64,8 @@ public class ProfileFragment extends Fragment {
 
     private void fillProfileData() {
         User currentUser = Authentication.getCurrentUser();
+        if (currentUser == null) return;
+        
         String name = currentUser.getName();
         String surname = currentUser.getSurname();
         String phone = currentUser.getPhoneNumber();

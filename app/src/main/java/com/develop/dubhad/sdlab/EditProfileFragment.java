@@ -105,6 +105,7 @@ public class EditProfileFragment extends Fragment {
 
     private void saveProfileData() {
         User currentUser = Authentication.getCurrentUser();
+        if (currentUser == null) return;
 
         currentUser.setName(nameEditView.getText().toString());
         currentUser.setSurname(surnameEditView.getText().toString());
@@ -117,6 +118,8 @@ public class EditProfileFragment extends Fragment {
 
     private void fillEditProfileData() {
         User currentUser = Authentication.getCurrentUser();
+        if (currentUser == null) return;
+        
         String name = currentUser.getName();
         String surname = currentUser.getSurname();
         String phone = currentUser.getPhoneNumber();
