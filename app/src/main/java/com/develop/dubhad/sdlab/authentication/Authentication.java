@@ -32,6 +32,10 @@ public class Authentication {
         new signUpAsyncTask(signUpResultListener, userRepository).execute(login, password);
     }
     
+    public static void logOut() {
+        currentUser = null;
+    }
+    
     private static class signInAsyncTask extends AsyncTask<String, Void, User> {
         
         private UserRepository userRepository;

@@ -28,13 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
-    private TextView headerLoginView;
-    private TextView headerEmailView;
-    private CircleImageView headerCircleView;
-    
-    private Button signInButton;
-    private Button signUpButton;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,36 +100,57 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDrawerHeader() {
         User currentUser = Authentication.getCurrentUser();
-        if (currentUser == null) {
-            signInButton = navigationView.getHeaderView(0).findViewById(R.id.sign_in);
-            signUpButton = navigationView.getHeaderView(0).findViewById(R.id.sign_up);
-            
-            signInButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.signInFragment);
-                    drawerLayout.closeDrawers();
-                }
-            });
-            
-            signUpButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.signUpFragment);
-                    drawerLayout.closeDrawers();
-                }
-            });
-            
-            return;
+        if (currentUser != null) {
+            setupUserDrawerHeader(currentUser);
         }
+        else {
+            setupNoUserDrawerHeader();
+        }
+        
+    }
+    
+    private void setupNoUserDrawerHeader() {
+        navigationView.removeHeaderView(navigationView.getHeaderView(0));
+        navigationView.inflateHeaderView(R.layout.no_user_drawer_header);
 
+        Button signInButton = navigationView.getHeaderView(0).findViewById(R.id.sign_in);
+        Button signUpButton = navigationView.getHeaderView(0).findViewById(R.id.sign_up);
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.signInFragment);
+                drawerLayout.closeDrawers();
+            }
+        });
+
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.signUpFragment);
+                drawerLayout.closeDrawers();
+            }
+        });
+    }
+    
+    private void setupUserDrawerHeader(User currentUser) {
         navigationView.removeHeaderView(navigationView.getHeaderView(0));
         navigationView.inflateHeaderView(R.layout.drawer_header);
-        
-        headerLoginView = navigationView.getHeaderView(0).findViewById(R.id.headerNameView);
-        headerEmailView = navigationView.getHeaderView(0).findViewById(R.id.headerEmailView);
-        headerCircleView = navigationView.getHeaderView(0).findViewById(R.id.headerCircleView);
-        
+
+        TextView headerLoginView = navigationView.getHeaderView(0).findViewById(R.id.headerNameView);
+        TextView headerEmailView = navigationView.getHeaderView(0).findViewById(R.id.headerEmailView);
+        CircleImageView headerCircleView = navigationView.getHeaderView(0).findViewById(R.id.headerCircleView);
+        Button logOutButton = navigationView.getHeaderView(0).findViewById(R.id.log_out);
+
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Authentication.logOut();
+                Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.startFragment);
+                drawerLayout.closeDrawers();
+            }
+        });
+
         String login = currentUser.getLogin();
         String email = currentUser.getEmail();
         String avatar = currentUser.getPicture();
