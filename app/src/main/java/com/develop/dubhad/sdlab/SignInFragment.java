@@ -12,6 +12,7 @@ import com.develop.dubhad.sdlab.authentication.Authentication;
 import com.develop.dubhad.sdlab.authentication.SignInResultListener;
 import com.develop.dubhad.sdlab.models.User;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,8 +24,9 @@ public class SignInFragment extends Fragment implements SignInResultListener {
     private TextInputEditText inputLogin;
     private TextInputEditText inputPassword;
     
-    private Button signInButton;
-    
+    private TextInputLayout loginLayout;
+    private TextInputLayout passwordLayout;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_sign_in, container, false);
@@ -36,12 +38,23 @@ public class SignInFragment extends Fragment implements SignInResultListener {
         
         inputLogin = view.findViewById(R.id.input_login);
         inputPassword = view.findViewById(R.id.input_password);
-        signInButton = view.findViewById(R.id.btn_sign_in);
+        Button signInButton = view.findViewById(R.id.btn_sign_in);
+        
+        loginLayout = view.findViewById(R.id.input_login_layout);
+        passwordLayout = view.findViewById(R.id.input_password_layout);
         
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(inputLogin.getText()) && !TextUtils.isEmpty(inputPassword.getText())) {
+                loginLayout.setError(null);
+                passwordLayout.setError(null);
+                if (TextUtils.isEmpty(inputLogin.getText())) {
+                    loginLayout.setError(getString(R.string.empty_login_error));
+                }
+                if (TextUtils.isEmpty(inputPassword.getText())) {   
+                    passwordLayout.setError(getString(R.string.empty_password_error));
+                }
+                else {
                     Authentication.signIn(SignInFragment.this, inputLogin.getText().toString(), inputPassword.getText().toString());
                 }
             }
@@ -56,6 +69,8 @@ public class SignInFragment extends Fragment implements SignInResultListener {
 
     @Override
     public void onSignInFail() {
+        loginLayout.setError(getString(R.string.wrong_data_error));
+        passwordLayout.setError(getString(R.string.wrong_data_error));
         Log.d("RESULT", "FAIL");
     }
 }

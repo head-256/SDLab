@@ -23,10 +23,10 @@ public class SignUpFragment extends Fragment implements SignUpResultListener {
     
     private TextInputEditText inputLogin;
     private TextInputEditText inputPassword;
+    
     private TextInputLayout loginLayout;
-    
-    private Button registerButton;
-    
+    private TextInputLayout passwordLayout;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_sign_up, container, false);
@@ -39,12 +39,21 @@ public class SignUpFragment extends Fragment implements SignUpResultListener {
         inputLogin = view.findViewById(R.id.register_input_login);
         inputPassword = view.findViewById(R.id.register_input_password);
         loginLayout = view.findViewById(R.id.register_login_layout);
-        
-        registerButton = view.findViewById(R.id.btn_register);
+        passwordLayout = view.findViewById(R.id.register_password_layout);
+
+        Button registerButton = view.findViewById(R.id.btn_register);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(inputLogin.getText()) && !TextUtils.isEmpty(inputPassword.getText())) {
+                loginLayout.setError(null);
+                passwordLayout.setError(null);
+                if (TextUtils.isEmpty(inputLogin.getText())) {
+                    loginLayout.setError(getString(R.string.empty_login_error));
+                }
+                if (TextUtils.isEmpty(inputPassword.getText())) {
+                    passwordLayout.setError(getString(R.string.empty_password_error));
+                }
+                else {
                     Authentication.signUp(SignUpFragment.this, inputLogin.getText().toString(), inputPassword.getText().toString());
                 }
             }
@@ -58,7 +67,7 @@ public class SignUpFragment extends Fragment implements SignUpResultListener {
 
     @Override
     public void onUserExists() {
-        loginLayout.setError("User already exists");
+        loginLayout.setError(getString(R.string.user_exist_error));
     }
 
     @Override
