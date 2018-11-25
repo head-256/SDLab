@@ -1,6 +1,7 @@
 package com.develop.dubhad.sdlab.models;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 
 import java.util.List;
@@ -25,6 +26,10 @@ public class UserRepository {
     
     public User getUser(String login, String password) {
         return userDao.getUser(login, password);
+    }
+    
+    public User getUser(String login) {
+        return userDao.getUser(login);
     }
     
     public void insertUser(User user) {

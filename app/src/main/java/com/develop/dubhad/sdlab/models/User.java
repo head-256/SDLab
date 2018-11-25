@@ -2,9 +2,10 @@ package com.develop.dubhad.sdlab.models;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(indices = {@Index(value = "login", unique = true)})
 public class User {
     
     @PrimaryKey(autoGenerate = true)
@@ -16,7 +17,6 @@ public class User {
     @NonNull
     private String password;
     
-    @NonNull
     private String name;
     
     private String surname;
@@ -27,17 +27,16 @@ public class User {
     
     private String picture;
 
-    public User(@NonNull String login, @NonNull String password, @NonNull String name) {
+    public User(@NonNull String login, @NonNull String password) {
         this.login = login;
         this.password = password;
-        this.name = name;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setName(@NonNull String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -60,8 +59,7 @@ public class User {
     public int getId() {
         return id;
     }
-
-    @NonNull
+    
     public String getName() {
         return name;
     }

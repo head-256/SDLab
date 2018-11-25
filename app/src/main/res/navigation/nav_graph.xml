@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_startFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -62,6 +65,19 @@
     <fragment
         android:id="@+id/signInFragment"
         android:name="com.develop.dubhad.sdlab.SignInFragment"
-        android:label="Sign in"
-        tools:layout="@layout/fragment_sign_in" />
+        android:label="@string/sign_in_label"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.develop.dubhad.sdlab.SignUpFragment"
+        android:label="@string/sign_up_label"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
 </navigation>

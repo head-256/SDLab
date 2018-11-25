@@ -24,6 +24,10 @@ public class Authentication {
         new signInAsyncTask(signInResultListener, userRepository).execute(login, password);
     }
     
+    public static void signUp(SignUpResultListener signUpResultListener, String login, String password) {
+        new signUpAsyncTask(signUpResultListener, userRepository).execute(login, password);
+    }
+    
     private static class signInAsyncTask extends AsyncTask<String, Void, User> {
         
         private UserRepository userRepository;
@@ -48,6 +52,41 @@ public class Authentication {
             else {
                 setCurrentUser(user);
                 resultListener.onSignInComplete(user);
+            }
+        }
+    }
+
+    private static class signUpAsyncTask extends AsyncTask<String, Void, User> {
+
+        private UserRepository userRepository;
+
+        private SignUpResultListener resultListener;
+
+        signUpAsyncTask(SignUpResultListener signUpResultListener, UserRepository repository) {
+            userRepository = repository;
+            resultListener = signUpResultListener;
+        }
+
+        @Override
+        protected User doInBackground(String... params) {
+            User user = userRepository.getUser(params[0]);
+            if (user == null) {
+                user = new User(params[0], params[1]);
+                userRepository.insertUser(user);
+            }
+            else {
+                user = null;
+            }
+            return user;
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            if (user == null) {
+                resultListener.onUserExists();
+            }
+            else {
+                resultListener.onSignUpSuccess(user);
             }
         }
     }

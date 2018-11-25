@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 public class StartFragment extends Fragment {
     
     private Button signInButton;
+    private Button signUpButton;
     
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -35,11 +36,19 @@ public class StartFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         
         signInButton = view.findViewById(R.id.sign_in_button);
+        signUpButton = view.findViewById(R.id.sign_up_button);
         
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.signInFragment);
+            }
+        });
+        
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.signUpFragment);
             }
         });
     }
