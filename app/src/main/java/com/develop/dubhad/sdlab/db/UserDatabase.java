@@ -1,7 +1,10 @@
-package com.develop.dubhad.sdlab.models;
+package com.develop.dubhad.sdlab.db;
 
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.develop.dubhad.sdlab.user.User;
+import com.develop.dubhad.sdlab.user.UserDao;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;

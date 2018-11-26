@@ -1,4 +1,4 @@
-package com.develop.dubhad.sdlab.models;
+package com.develop.dubhad.sdlab.user;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

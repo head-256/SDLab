@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.develop.dubhad.sdlab.ProfileFragment"
+        android:name="com.develop.dubhad.sdlab.profile_ui.ProfileFragment"
         android:label="@string/profile_page_label"
         tools:layout="@layout/profile_layout" >
         <action
@@ -46,7 +46,7 @@
         tools:layout="@layout/fragment_info" />
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.develop.dubhad.sdlab.EditProfileFragment"
+        android:name="com.develop.dubhad.sdlab.profile_ui.EditProfileFragment"
         android:label="@string/edit_profile_page_label"
         tools:layout="@layout/edit_profile_layout" >
     </fragment>
@@ -64,7 +64,7 @@
         <deepLink app:uri="sdapp://sdlab/page/3"/></fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.develop.dubhad.sdlab.SignInFragment"
+        android:name="com.develop.dubhad.sdlab.authentication_ui.SignInFragment"
         android:label="@string/sign_in_label"
         tools:layout="@layout/fragment_sign_in" >
         <action
@@ -73,7 +73,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.develop.dubhad.sdlab.SignUpFragment"
+        android:name="com.develop.dubhad.sdlab.authentication_ui.SignUpFragment"
         android:label="@string/sign_up_label"
         tools:layout="@layout/fragment_sign_up" >
         <action

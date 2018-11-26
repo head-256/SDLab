@@ -1,4 +1,4 @@
-package com.develop.dubhad.sdlab.Util;
+package com.develop.dubhad.sdlab.util;
 
 import android.content.Context;
 import android.net.Uri;

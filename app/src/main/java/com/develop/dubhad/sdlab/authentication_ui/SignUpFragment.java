@@ -1,16 +1,16 @@
-package com.develop.dubhad.sdlab;
+package com.develop.dubhad.sdlab.authentication_ui;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.develop.dubhad.sdlab.R;
 import com.develop.dubhad.sdlab.authentication.Authentication;
-import com.develop.dubhad.sdlab.authentication.SignInResultListener;
-import com.develop.dubhad.sdlab.models.User;
+import com.develop.dubhad.sdlab.authentication.SignUpResultListener;
+import com.develop.dubhad.sdlab.user.User;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -19,7 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-public class SignInFragment extends Fragment implements SignInResultListener {
+
+public class SignUpFragment extends Fragment implements SignUpResultListener {
     
     private TextInputEditText inputLogin;
     private TextInputEditText inputPassword;
@@ -29,21 +30,20 @@ public class SignInFragment extends Fragment implements SignInResultListener {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_sign_in, container, false);
+        return inflater.inflate(R.layout.fragment_sign_up, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         
-        inputLogin = view.findViewById(R.id.input_login);
-        inputPassword = view.findViewById(R.id.input_password);
-        Button signInButton = view.findViewById(R.id.btn_sign_in);
-        
-        loginLayout = view.findViewById(R.id.input_login_layout);
-        passwordLayout = view.findViewById(R.id.input_password_layout);
-        
-        signInButton.setOnClickListener(new View.OnClickListener() {
+        inputLogin = view.findViewById(R.id.register_input_login);
+        inputPassword = view.findViewById(R.id.register_input_password);
+        loginLayout = view.findViewById(R.id.register_login_layout);
+        passwordLayout = view.findViewById(R.id.register_password_layout);
+
+        Button registerButton = view.findViewById(R.id.btn_register);
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loginLayout.setError(null);
@@ -51,26 +51,28 @@ public class SignInFragment extends Fragment implements SignInResultListener {
                 if (TextUtils.isEmpty(inputLogin.getText())) {
                     loginLayout.setError(getString(R.string.empty_login_error));
                 }
-                if (TextUtils.isEmpty(inputPassword.getText())) {   
+                if (TextUtils.isEmpty(inputPassword.getText())) {
                     passwordLayout.setError(getString(R.string.empty_password_error));
                 }
                 else {
-                    Authentication.signIn(SignInFragment.this, inputLogin.getText().toString(), inputPassword.getText().toString());
+                    Authentication.signUp(SignUpFragment.this, inputLogin.getText().toString(), inputPassword.getText().toString());
                 }
             }
         });
     }
 
     @Override
-    public void onSignInComplete(User user) {
-        Navigation.findNavController(getView()).navigate(R.id.action_signInFragment_to_profileFragment);
-        Log.d("RESULT", "SUCCESS");
+    public void onSignUpSuccess(User user) {
+        Navigation.findNavController(getView()).navigate(R.id.action_signUpFragment_to_signInFragment);
     }
 
     @Override
-    public void onSignInFail() {
-        loginLayout.setError(getString(R.string.wrong_data_error));
-        passwordLayout.setError(getString(R.string.wrong_data_error));
-        Log.d("RESULT", "FAIL");
+    public void onUserExists() {
+        loginLayout.setError(getString(R.string.user_exist_error));
+    }
+
+    @Override
+    public void onSignUpFail() {
+
     }
 }

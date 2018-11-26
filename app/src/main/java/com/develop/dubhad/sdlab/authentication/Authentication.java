@@ -3,8 +3,8 @@ package com.develop.dubhad.sdlab.authentication;
 import android.os.AsyncTask;
 
 import com.develop.dubhad.sdlab.App;
-import com.develop.dubhad.sdlab.models.User;
-import com.develop.dubhad.sdlab.models.UserRepository;
+import com.develop.dubhad.sdlab.user.User;
+import com.develop.dubhad.sdlab.user.UserRepository;
 
 public class Authentication {
     

@@ -1,4 +1,4 @@
-package com.develop.dubhad.sdlab;
+package com.develop.dubhad.sdlab.profile_ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,9 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.develop.dubhad.sdlab.Util.ImageUtil;
+import com.develop.dubhad.sdlab.R;
+import com.develop.dubhad.sdlab.util.ImageUtil;
 import com.develop.dubhad.sdlab.authentication.Authentication;
-import com.develop.dubhad.sdlab.models.User;
+import com.develop.dubhad.sdlab.user.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;

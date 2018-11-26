@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
-    tools:context=".EditProfileFragment">
+    tools:context=".profile_ui.EditProfileFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"

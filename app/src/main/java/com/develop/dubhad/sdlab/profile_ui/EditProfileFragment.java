@@ -1,4 +1,4 @@
-package com.develop.dubhad.sdlab;
+package com.develop.dubhad.sdlab.profile_ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +8,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.develop.dubhad.sdlab.Util.ImageUtil;
+import com.develop.dubhad.sdlab.R;
+import com.develop.dubhad.sdlab.util.ImageUtil;
 import com.develop.dubhad.sdlab.authentication.Authentication;
-import com.develop.dubhad.sdlab.models.User;
-import com.develop.dubhad.sdlab.models.UserViewModel;
+import com.develop.dubhad.sdlab.user.User;
+import com.develop.dubhad.sdlab.user.UserViewModel;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

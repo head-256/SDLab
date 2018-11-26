@@ -1,8 +1,9 @@
-package com.develop.dubhad.sdlab.models;
+package com.develop.dubhad.sdlab.user;
 
 import android.app.Application;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
+
+import com.develop.dubhad.sdlab.db.UserDatabase;
 
 import java.util.List;
 

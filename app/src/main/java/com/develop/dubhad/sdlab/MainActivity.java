@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.develop.dubhad.sdlab.Util.ImageUtil;
+import com.develop.dubhad.sdlab.util.ImageUtil;
 import com.develop.dubhad.sdlab.authentication.Authentication;
-import com.develop.dubhad.sdlab.models.User;
+import com.develop.dubhad.sdlab.user.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
