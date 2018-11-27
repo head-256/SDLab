@@ -42,4 +42,8 @@
     <string name="empty_password_error">Empty password</string>
     <string name="wrong_data_error">Wrong data</string>
     <string name="user_exist_error">User already exists</string>
+    <string name="registration_complete_message">Registration completed</string>
+    <string name="login_complete_message">Hello, %1$s</string>
+    <string name="profile_data_save_confirmed_key">confirmed</string>
+    <string name="saved_message">Saved</string>
 </resources>

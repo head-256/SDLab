@@ -12,6 +12,7 @@ import com.develop.dubhad.sdlab.R;
 import com.develop.dubhad.sdlab.authentication.Authentication;
 import com.develop.dubhad.sdlab.authentication.SignInResultListener;
 import com.develop.dubhad.sdlab.user.User;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -65,13 +66,12 @@ public class SignInFragment extends Fragment implements SignInResultListener {
     @Override
     public void onSignInComplete(User user) {
         Navigation.findNavController(getView()).navigate(R.id.action_signInFragment_to_profileFragment);
-        Log.d("RESULT", "SUCCESS");
+        Snackbar.make(getView(), getString(R.string.login_complete_message, user.getLogin()), Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void onSignInFail() {
         loginLayout.setError(getString(R.string.wrong_data_error));
         passwordLayout.setError(getString(R.string.wrong_data_error));
-        Log.d("RESULT", "FAIL");
     }
 }

@@ -12,6 +12,7 @@ import com.develop.dubhad.sdlab.util.ImageUtil;
 import com.develop.dubhad.sdlab.authentication.Authentication;
 import com.develop.dubhad.sdlab.user.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,6 +55,10 @@ public class ProfileFragment extends Fragment {
 
         FloatingActionButton editButton = view.findViewById(R.id.editButton);
         editButton.setOnClickListener(editProfileListener);
+        
+        if (getArguments() != null && getArguments().getBoolean(getString(R.string.profile_data_save_confirmed_key))) {
+            Snackbar.make(view, getString(R.string.saved_message), Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override

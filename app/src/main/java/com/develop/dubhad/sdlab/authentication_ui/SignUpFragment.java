@@ -11,6 +11,7 @@ import com.develop.dubhad.sdlab.R;
 import com.develop.dubhad.sdlab.authentication.Authentication;
 import com.develop.dubhad.sdlab.authentication.SignUpResultListener;
 import com.develop.dubhad.sdlab.user.User;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -64,6 +65,7 @@ public class SignUpFragment extends Fragment implements SignUpResultListener {
     @Override
     public void onSignUpSuccess(User user) {
         Navigation.findNavController(getView()).navigate(R.id.action_signUpFragment_to_signInFragment);
+        Snackbar.make(getView(), getString(R.string.registration_complete_message), Snackbar.LENGTH_LONG).show();
     }
 
     @Override

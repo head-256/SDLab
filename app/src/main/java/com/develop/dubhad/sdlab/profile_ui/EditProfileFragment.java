@@ -16,12 +16,16 @@ import com.develop.dubhad.sdlab.user.UserViewModel;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 public class EditProfileFragment extends Fragment {
 
@@ -101,7 +105,13 @@ public class EditProfileFragment extends Fragment {
 
     private void confirmProfileEdit(View view) {
         saveProfileData();
-        Navigation.findNavController(view).navigateUp();
+        
+        Bundle confirmBundle = new Bundle();
+        confirmBundle.putBoolean(getString(R.string.profile_data_save_confirmed_key), true);
+
+        NavController navController = Navigation.findNavController(view);
+        navController.popBackStack(R.id.profileFragment, true);
+        navController.navigate(R.id.profileFragment, confirmBundle);
     }
 
     private void saveProfileData() {
