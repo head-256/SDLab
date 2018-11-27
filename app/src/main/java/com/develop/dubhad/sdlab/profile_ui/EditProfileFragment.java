@@ -9,23 +9,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.develop.dubhad.sdlab.R;
-import com.develop.dubhad.sdlab.util.ImageUtil;
 import com.develop.dubhad.sdlab.authentication.Authentication;
 import com.develop.dubhad.sdlab.user.User;
 import com.develop.dubhad.sdlab.user.UserViewModel;
+import com.develop.dubhad.sdlab.util.ImageUtil;
+import com.develop.dubhad.sdlab.util.KeyboardUtil;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
 public class EditProfileFragment extends Fragment {
 
@@ -42,6 +40,7 @@ public class EditProfileFragment extends Fragment {
     private View.OnClickListener confirmProfileEditListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            KeyboardUtil.hideKeyboard(requireActivity());
             confirmProfileEdit(view);
         }
     };
