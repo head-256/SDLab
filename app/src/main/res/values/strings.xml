@@ -46,4 +46,8 @@
     <string name="login_complete_message">Hello, %1$s</string>
     <string name="profile_data_save_confirmed_key">confirmed</string>
     <string name="saved_message">Saved</string>
+    <string name="save_changes_title">Save changes</string>
+    <string name="save_profile_changes_message">Save profile changes?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

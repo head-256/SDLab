@@ -3,11 +3,13 @@ package com.develop.dubhad.sdlab.profile_ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.develop.dubhad.sdlab.MainActivity;
 import com.develop.dubhad.sdlab.R;
 import com.develop.dubhad.sdlab.authentication.Authentication;
 import com.develop.dubhad.sdlab.user.User;
@@ -18,14 +20,18 @@ import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.HashMap;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-public class EditProfileFragment extends Fragment {
+public class EditProfileFragment extends Fragment implements ConfirmChangesDialogFragment.ConfirmChangesDialogListener, 
+        MainActivity.BackPressedListener {
 
     private EditText nameEditView;
     private EditText surnameEditView;
@@ -36,6 +42,8 @@ public class EditProfileFragment extends Fragment {
     private String avatarPath;
 
     private UserViewModel userViewModel;
+    
+    private HashMap<String, String> initialProfileData;
 
     private View.OnClickListener confirmProfileEditListener = new View.OnClickListener() {
         @Override
@@ -58,6 +66,7 @@ public class EditProfileFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.edit_profile_layout, container, false);
     }
 
@@ -78,7 +87,49 @@ public class EditProfileFragment extends Fragment {
         FloatingActionButton confirmButton = view.findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(confirmProfileEditListener);
 
+        initialProfileData = new HashMap<>();
+
         fillEditProfileData();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (isProfileDataChanged(initialProfileData, getCurrentProfileData())) {
+                    KeyboardUtil.hideKeyboard(requireActivity());
+                    showConfirmChangesDialog();
+                    return true;
+                }
+        }
+        
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isProfileDataChanged(initialProfileData, getCurrentProfileData())) {
+            KeyboardUtil.hideKeyboard(requireActivity());
+            showConfirmChangesDialog();
+        }
+        else {
+            Navigation.findNavController(getView()).navigateUp();
+        }
+    }
+
+    @Override
+    public void onDialogPositiveClick() {
+        confirmProfileEdit(getView());
+    }
+
+    @Override
+    public void onDialogNegativeClick() {
+        Navigation.findNavController(getView()).navigateUp();
+    }
+
+    @Override
+    public void onDialogCancelClick() {
+        
     }
 
     @Override
@@ -138,12 +189,38 @@ public class EditProfileFragment extends Fragment {
         if (avatarPath == null) {
             avatarPath = ImageUtil.DEFAULT_IMAGE_PATH;
         }
-
+        
+        initialProfileData.put("name", name);
+        initialProfileData.put("surname", surname);
+        initialProfileData.put("phone", phone);
+        initialProfileData.put("email", email);
+        initialProfileData.put("picture", avatarPath);
+        
         nameEditView.setText(name);
         surnameEditView.setText(surname);
         phoneNumberEditView.setText(phone);
         emailEditView.setText(email);
 
         ImageUtil.loadImage(getContext(), avatarPath, avatarEditView);
+    }
+    
+    private void showConfirmChangesDialog() {
+        DialogFragment fragment = new ConfirmChangesDialogFragment();
+        fragment.setTargetFragment(this, 300);
+        fragment.show(getFragmentManager(), "confirm");
+    }
+    
+    private HashMap<String, String> getCurrentProfileData() {
+        HashMap<String, String> currentProfileData = new HashMap<>();
+        currentProfileData.put("name", nameEditView.getText().toString());
+        currentProfileData.put("surname", surnameEditView.getText().toString());
+        currentProfileData.put("phone", phoneNumberEditView.getText().toString());
+        currentProfileData.put("email", emailEditView.getText().toString());
+        currentProfileData.put("picture", avatarPath);
+        return currentProfileData;
+    }
+    
+    private boolean isProfileDataChanged(HashMap<String, String> oldData, HashMap<String, String> newData) {
+        return !oldData.equals(newData);
     }
 }

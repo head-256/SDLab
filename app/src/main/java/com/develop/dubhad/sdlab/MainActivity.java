@@ -6,18 +6,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.develop.dubhad.sdlab.util.ImageUtil;
 import com.develop.dubhad.sdlab.authentication.Authentication;
 import com.develop.dubhad.sdlab.user.User;
+import com.develop.dubhad.sdlab.util.ImageUtil;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -28,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
+    public interface BackPressedListener {
+        void onBackPressed();
+    }
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,14 +58,21 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(drawerLayout, Navigation.findNavController(this, R.id.nav_host_fragment));
     }
 
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment).getChildFragmentManager().getFragments().get(0);
+        switch (Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination().getId()) {
+            case R.id.editProfileFragment:
+                BackPressedListener backPressedListener = (BackPressedListener) fragment; 
+                backPressedListener.onBackPressed();
+                return;
+        }
+        super.onBackPressed();
+    }
+
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        if (actionbar != null) {
-            actionbar.setDisplayHomeAsUpEnabled(true);
-            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        }
     }
 
     private void setupNavigation() {

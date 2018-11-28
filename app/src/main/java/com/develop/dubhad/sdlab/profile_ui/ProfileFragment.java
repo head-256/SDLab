@@ -58,6 +58,7 @@ public class ProfileFragment extends Fragment {
         
         if (getArguments() != null && getArguments().getBoolean(getString(R.string.profile_data_save_confirmed_key))) {
             Snackbar.make(view, getString(R.string.saved_message), Snackbar.LENGTH_LONG).show();
+            getArguments().clear();
         }
     }
 
