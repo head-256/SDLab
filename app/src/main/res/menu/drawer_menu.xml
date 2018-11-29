@@ -6,8 +6,8 @@
             android:title="@string/profile_menu_item"
             android:icon="@drawable/ic_person_black_24dp"/>
         <item
-            android:id="@+id/firstEmptyFragment"
-            android:title="@string/empty_menu_item"
+            android:id="@+id/rssFeedFragment"
+            android:title="@string/rss_feed_menu_item"
             android:icon="@drawable/ic_block_black_24dp"/>
         <item
             android:id="@+id/secondEmptyFragment"

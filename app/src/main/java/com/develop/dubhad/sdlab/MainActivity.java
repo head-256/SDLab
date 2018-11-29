@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
                                 case R.id.profileFragment:
                                     navController.navigate(R.id.profileFragment);
                                     break;
-                                case R.id.firstEmptyFragment:
-                                    navController.navigate(R.id.firstEmptyFragment);
+                                case R.id.rssFeedFragment:
+                                    navController.navigate(R.id.rssFeedFragment);
                                     break;
                                 case R.id.secondEmptyFragment:
                                     navController.navigate(R.id.secondEmptyFragment);
