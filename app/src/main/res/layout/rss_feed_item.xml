@@ -8,6 +8,9 @@
     android:layout_marginTop="@dimen/mtrl_card_spacing"
     android:layout_marginRight="@dimen/mtrl_card_spacing"
     android:minHeight="200dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     tools:ignore="PrivateResource">
 
     <androidx.constraintlayout.widget.ConstraintLayout

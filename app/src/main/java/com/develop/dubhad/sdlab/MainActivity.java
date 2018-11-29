@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.develop.dubhad.sdlab.authentication.Authentication;
+import com.develop.dubhad.sdlab.authentication.SignInResultListener;
 import com.develop.dubhad.sdlab.user.User;
 import com.develop.dubhad.sdlab.util.ImageUtil;
 import com.google.android.material.navigation.NavigationView;
@@ -23,7 +24,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SignInResultListener, ToolbarTitleListener {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -31,7 +32,12 @@ public class MainActivity extends AppCompatActivity {
     public interface BackPressedListener {
         void onBackPressed();
     }
-    
+
+    @Override
+    public void updateTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +57,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setupNavigation();
+        
+        Authentication.signIn(this, "gleb", "1111");
+    }
+
+    @Override
+    public void onSignInComplete(User user) {
+        
+    }
+
+    @Override
+    public void onSignInFail() {
+
     }
 
     @Override

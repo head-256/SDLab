@@ -55,7 +55,11 @@
         android:name="com.develop.dubhad.sdlab.rss_ui.RssFeedFragment"
         android:label="@string/rss_feed_label"
         tools:layout="@layout/fragment_rss_feed" >
-        <deepLink app:uri="sdapp://sdlab/page/2"/></fragment>
+        <deepLink app:uri="sdapp://sdlab/page/2"/>
+        <action
+            android:id="@+id/action_rssFeedFragment_to_rssFeedItemFragment"
+            app:destination="@id/rssFeedItemFragment" />
+    </fragment>
     <fragment
         android:id="@+id/secondEmptyFragment"
         android:name="com.develop.dubhad.sdlab.SecondEmptyFragment"
@@ -80,4 +84,9 @@
             android:id="@+id/action_signUpFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/rssFeedItemFragment"
+        android:name="com.develop.dubhad.sdlab.rss_ui.RssFeedItemFragment"
+        android:label="fragment_rss_feed_item"
+        tools:layout="@layout/fragment_rss_feed_item" />
 </navigation>

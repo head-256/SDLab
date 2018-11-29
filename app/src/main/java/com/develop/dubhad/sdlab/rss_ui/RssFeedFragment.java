@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,30 +23,20 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RssFeedFragment extends Fragment {
 
     private RecyclerView rssFeedRecyclerView;
-    
+
     private FeedItemAdapter feedItemAdapter;
-    
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_rss_feed, container, false);
-    }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        
-        rssFeedRecyclerView = view.findViewById(R.id.rss_feed_rv);
-        
-        rssFeedRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        feedItemAdapter = new FeedItemAdapter(new ArrayList<Article>());
         Parser parser = new Parser();
         parser.execute("https://www.androidcentral.com/feed");
         parser.onFinish(new Parser.OnTaskCompleted() {
             @Override
             public void onTaskCompleted(ArrayList<Article> arrayList) {
-                feedItemAdapter = new FeedItemAdapter(arrayList);
-                rssFeedRecyclerView.setAdapter(feedItemAdapter);
+                feedItemAdapter.refreshData(arrayList);
             }
 
             @Override
@@ -53,5 +44,22 @@ public class RssFeedFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_rss_feed, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        rssFeedRecyclerView = view.findViewById(R.id.rss_feed_rv);
+
+        rssFeedRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rssFeedRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        rssFeedRecyclerView.setAdapter(feedItemAdapter);
     }
 }

@@ -53,4 +53,6 @@
     <string name="rss_feed_label">RSS Feed</string>
     <string name="rss_feed_menu_item">Feed</string>
     <string name="feed_item_image_cd">Feed Item Image</string>
+    <string name="feed_item_title_key">title</string>
+    <string name="feed_item_content_key">content</string>
 </resources>
