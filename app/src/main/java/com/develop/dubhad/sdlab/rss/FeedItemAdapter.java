@@ -71,7 +71,7 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
         
         title.setText(feedItem.getTitle());
 
-        description.setText(Html.fromHtml(feedItem.getDescription()));
+        description.setText(Html.fromHtml(feedItem.getDescription().replaceAll("<img.+?>", "")).toString().replaceAll("\n", "").trim());
         
         Glide.with(holder.itemView)
                 .load(feedItem.getImage())
@@ -88,6 +88,7 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
                 Bundle bundle = new Bundle();
                 bundle.putString(v.getContext().getResources().getString(R.string.feed_item_title_key), feedItem.getTitle());
                 bundle.putString(v.getContext().getResources().getString(R.string.feed_item_content_key), feedItem.getContent());
+                bundle.putString("link", feedItem.getLink());
                 Navigation.findNavController(v).navigate(R.id.rssFeedItemFragment, bundle);
             }
         });

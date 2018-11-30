@@ -58,4 +58,6 @@
     <string name="feed_loaded_message">Feed loaded</string>
     <string name="failed_load_feed_message">Failed to load feed</string>
     <string name="failed_to_load_feed_message">Failed to load feed\n\nSwipe to try again</string>
+    <string name="url_hint">URL</string>
+    <string name="edit_feed_url_menu_item">Edit feed url</string>
 </resources>
