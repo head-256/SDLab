@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.develop.dubhad.sdlab.R;
 import com.develop.dubhad.sdlab.authentication.Authentication;
+import com.develop.dubhad.sdlab.rss.FeedCacheManager;
 import com.develop.dubhad.sdlab.util.KeyboardUtil;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -33,6 +34,8 @@ public class EditFeedUrlDialogFragment extends DialogFragment {
     private TextInputEditText feedUrlEdit;
     private TextInputLayout feedUrlLayout;
     
+    private String oldUrlValue;
+    
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -47,7 +50,8 @@ public class EditFeedUrlDialogFragment extends DialogFragment {
         feedUrlEdit = viewInflated.findViewById(R.id.feed_url);
         String login = Authentication.getCurrentUser().getLogin();
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(login, Context.MODE_PRIVATE);
-        feedUrlEdit.setText(sharedPreferences.getString("feedUrl", ""));
+        oldUrlValue = sharedPreferences.getString("feedUrl", "");
+        feedUrlEdit.setText(oldUrlValue);
         feedUrlEdit.setSelectAllOnFocus(true);
         feedUrlEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -97,6 +101,9 @@ public class EditFeedUrlDialogFragment extends DialogFragment {
                     }
                     else {
                         KeyboardUtil.hideKeyboard(requireActivity(), feedUrlEdit);
+                        if (!oldUrlValue.equals(input)) {
+                            FeedCacheManager.clearCache(requireActivity());
+                        }
                         editFeedDialogListener.onDialogPositiveClick(input);
                         alertDialog.dismiss();
                     }

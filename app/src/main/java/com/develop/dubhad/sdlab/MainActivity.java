@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.develop.dubhad.sdlab.authentication.Authentication;
 import com.develop.dubhad.sdlab.authentication.SignInResultListener;
+import com.develop.dubhad.sdlab.rss.FeedCacheManager;
 import com.develop.dubhad.sdlab.user.User;
 import com.develop.dubhad.sdlab.util.ImageUtil;
 import com.google.android.material.navigation.NavigationView;
@@ -175,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements SignInResultListe
             @Override
             public void onClick(View v) {
                 Authentication.logOut();
+                FeedCacheManager.clearCache(MainActivity.this);
                 Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.startFragment);
                 drawerLayout.closeDrawers();
             }

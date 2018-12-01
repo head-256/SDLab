@@ -2,9 +2,8 @@ package com.develop.dubhad.sdlab.rss_ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +15,9 @@ import android.widget.ProgressBar;
 
 import com.develop.dubhad.sdlab.R;
 import com.develop.dubhad.sdlab.authentication.Authentication;
+import com.develop.dubhad.sdlab.rss.FeedCacheManager;
 import com.develop.dubhad.sdlab.rss.FeedItemAdapter;
+import com.develop.dubhad.sdlab.util.NetworkUtil;
 import com.google.android.material.snackbar.Snackbar;
 import com.prof.rssparser.Article;
 import com.prof.rssparser.Parser;
@@ -29,8 +30,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
@@ -49,12 +52,14 @@ public class RssFeedFragment extends Fragment implements EditFeedUrlDialogFragme
     private FeedItemAdapter feedItemAdapter;
     
     private static String currentUrl;
-
+    
+    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         
         setHasOptionsMenu(true);
+        setRetainInstance(true);
         return inflater.inflate(R.layout.fragment_rss_feed, container, false);
     }
 
@@ -105,6 +110,7 @@ public class RssFeedFragment extends Fragment implements EditFeedUrlDialogFragme
         
         rssFeedRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         rssFeedRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        rssFeedRecyclerView.setHasFixedSize(true);
 
         rssFeedSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
         rssFeedSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -141,25 +147,36 @@ public class RssFeedFragment extends Fragment implements EditFeedUrlDialogFragme
         rssFeedProgressBar.setVisibility(View.VISIBLE);
 
         currentUrl = feedUrl;
+        if (currentUrl != null) {
+            loadFeed(currentUrl);
+        }
+        
         String login = Authentication.getCurrentUser().getLogin();
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(login, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("feedUrl", feedUrl);
         editor.apply();
-        
-        if (currentUrl != null) {
-            loadFeed(currentUrl);
-        }
     }
 
     private void loadFeed(String feedUrl) {
-        rssFeedProgressBar.setVisibility(View.VISIBLE);
-        if (!isNetworkAvailable(requireContext())) {
+        if (!rssFeedSwipeRefreshLayout.isRefreshing()) {
+            rssFeedProgressBar.setVisibility(View.VISIBLE);
+        }
+        if (!NetworkUtil.isNetworkAvailable(requireContext())) {
             rssFeedProgressBar.setVisibility(View.GONE);
             rssErrorBanner.setVisibility(View.GONE);
             rssFeedSwipeRefreshLayout.setRefreshing(false);
-            rssFeedRecyclerView.setVisibility(View.GONE);
             noConnectionBanner.setVisibility(View.VISIBLE);
+            
+            if (FeedCacheManager.isCacheExist(requireActivity())) {
+                rssFeedRecyclerView.setVisibility(View.VISIBLE);
+                feedItemAdapter = new FeedItemAdapter(FeedCacheManager.getCache(requireActivity()));
+                rssFeedRecyclerView.swapAdapter(feedItemAdapter, false);
+            }
+            else {
+                feedItemAdapter = new FeedItemAdapter(new ArrayList<Article>());
+                rssFeedRecyclerView.swapAdapter(feedItemAdapter, false);
+            }
             return;
         }
         Parser parser = new Parser();
@@ -177,6 +194,8 @@ public class RssFeedFragment extends Fragment implements EditFeedUrlDialogFragme
                 rssFeedRecyclerView.swapAdapter(feedItemAdapter, false);
                 
                 Snackbar.make(getView(), getString(R.string.feed_loaded_message), Snackbar.LENGTH_SHORT).show();
+
+                FeedCacheManager.saveCache(requireActivity(), arrayList, 10);
             }
 
             @Override
@@ -193,12 +212,5 @@ public class RssFeedFragment extends Fragment implements EditFeedUrlDialogFragme
                 });
             }
         });
-    }
-
-    private static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm == null) return false;
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

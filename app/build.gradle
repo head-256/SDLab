@@ -97,4 +97,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     implementation 'com.prof.rssparser:rssparser:1.4.4'
+    implementation 'com.google.code.gson:gson:2.8.5'
 }

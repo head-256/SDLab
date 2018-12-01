@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.develop.dubhad.sdlab.R;
+import com.develop.dubhad.sdlab.util.NetworkUtil;
+import com.google.android.material.snackbar.Snackbar;
 import com.prof.rssparser.Article;
 
 import java.text.SimpleDateFormat;
@@ -51,6 +53,10 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
         this.feedItems.addAll(feedItems);
         notifyDataSetChanged();
     }
+    
+    public List<Article> getFeedItems() {
+        return feedItems;
+    }
 
     @NonNull
     @Override
@@ -71,7 +77,8 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
         
         title.setText(feedItem.getTitle());
 
-        description.setText(Html.fromHtml(feedItem.getDescription().replaceAll("<img.+?>", "")).toString().replaceAll("\n", "").trim());
+        description.setText(Html.fromHtml(feedItem.getDescription().replaceAll("<img.+?>", ""))
+                .toString().replaceAll("\n", "").trim());
         
         Glide.with(holder.itemView)
                 .load(feedItem.getImage())
@@ -85,10 +92,15 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!NetworkUtil.isNetworkAvailable(v.getContext())) {
+                    Snackbar.make(v, "No connection", Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                
                 Bundle bundle = new Bundle();
-                bundle.putString(v.getContext().getResources().getString(R.string.feed_item_title_key), feedItem.getTitle());
-                bundle.putString(v.getContext().getResources().getString(R.string.feed_item_content_key), feedItem.getContent());
-                bundle.putString("link", feedItem.getLink());
+                bundle.putString(v.getContext().getString(R.string.feed_item_title_key), feedItem.getTitle());
+                bundle.putString(v.getContext().getString(R.string.feed_item_content_key), feedItem.getContent());
+                bundle.putString(v.getContext().getString(R.string.feed_item_link_key), feedItem.getLink());
                 Navigation.findNavController(v).navigate(R.id.rssFeedItemFragment, bundle);
             }
         });

@@ -2,7 +2,6 @@ package com.develop.dubhad.sdlab.rss_ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,12 +33,12 @@ public class RssFeedItemFragment extends Fragment {
         
         setupFeedItemView();
         
-        String feedItemTitle = getArguments().getString(getResources().getString(R.string.feed_item_title_key));
+        String feedItemTitle = getArguments().getString(getString(R.string.feed_item_title_key));
         ((ToolbarTitleListener)requireActivity()).updateTitle(feedItemTitle);
         
-        String feedItemContent = getArguments().getString(getResources().getString(R.string.feed_item_content_key));
+        String feedItemContent = getArguments().getString(getString(R.string.feed_item_content_key));
         
-        String feedItemLink = getArguments().getString("link");
+        String feedItemLink = getArguments().getString(getString(R.string.feed_item_link_key));
         
         if (feedItemContent != null) {
             feedItemView.loadData("<style>img{display: inline; height: auto; max-width: 100%;} " +
