@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.develop.dubhad.sdlab.R;
 import com.develop.dubhad.sdlab.util.NetworkUtil;
 import com.google.android.material.snackbar.Snackbar;
@@ -82,6 +83,9 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
         
         Glide.with(holder.itemView)
                 .load(feedItem.getImage())
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.ic_image_black_24dp)
+                        .error(R.drawable.ic_broken_image_black_24dp))
                 .into(image);
 
         Date date = feedItem.getPubDate();
