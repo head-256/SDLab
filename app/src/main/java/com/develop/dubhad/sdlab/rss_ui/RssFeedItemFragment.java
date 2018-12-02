@@ -1,8 +1,13 @@
 package com.develop.dubhad.sdlab.rss_ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -13,6 +18,7 @@ import com.develop.dubhad.sdlab.ToolbarTitleListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 public class RssFeedItemFragment extends Fragment {
@@ -21,9 +27,27 @@ public class RssFeedItemFragment extends Fragment {
     
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        
+        setHasOptionsMenu(true);
         setRetainInstance(true);
         
         return inflater.inflate(R.layout.fragment_rss_feed_item, container, false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        requireActivity().getMenuInflater().inflate(R.menu.rss_feed_item_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.open_in_browser:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getArguments().getString(getString(R.string.feed_item_link_key))));
+                startActivity(browserIntent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -61,4 +61,5 @@
     <string name="url_hint">URL</string>
     <string name="edit_feed_url_menu_item">Edit feed url</string>
     <string name="feed_item_link_key">link</string>
+    <string name="open_in_browser">Open in browser</string>
 </resources>
