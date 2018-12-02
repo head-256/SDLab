@@ -14,6 +14,8 @@ import com.develop.dubhad.sdlab.util.ImageUtil;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements SignInResultListe
 
     @Override
     public void updateTitle(String title) {
-        getSupportActionBar().setTitle(title);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(title);
     }
 
     @Override
@@ -79,8 +81,10 @@ public class MainActivity extends AppCompatActivity implements SignInResultListe
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment).getChildFragmentManager().getFragments().get(0);
-        switch (Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination().getId()) {
+        Fragment fragment = Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment))
+                .getChildFragmentManager().getFragments().get(0);
+        switch (Objects.requireNonNull(Navigation.findNavController(this, R.id.nav_host_fragment)
+                .getCurrentDestination()).getId()) {
             case R.id.editProfileFragment:
                 BackPressedListener backPressedListener = (BackPressedListener) fragment; 
                 backPressedListener.onBackPressed();

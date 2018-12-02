@@ -62,4 +62,9 @@
     <string name="edit_feed_url_menu_item">Edit feed url</string>
     <string name="feed_item_link_key">link</string>
     <string name="open_in_browser">Open in browser</string>
+    <string name="feed_cache_key">feedCache</string>
+    <string name="no_connection_message">No connection</string>
+    <string name="feed_url_key">feedUrl</string>
+    <string name="edit_feed_url_dialog_title">Enter valid feed URL</string>
+    <string name="invalid_url_error">Invalid URL</string>
 </resources>

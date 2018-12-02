@@ -16,22 +16,37 @@ import android.webkit.WebViewClient;
 import com.develop.dubhad.sdlab.R;
 import com.develop.dubhad.sdlab.ToolbarTitleListener;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 public class RssFeedItemFragment extends Fragment {
 
     private WebView feedItemView;
+
+    @Nullable
+    private String title;
+
+    @Nullable
+    private String content;
     
+    @Nullable
+    private String link;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        
+
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        
+
+        Bundle passedData = getArguments();
+        title = Objects.requireNonNull(passedData).getString(getString(R.string.feed_item_title_key));
+        content = passedData.getString(getString(R.string.feed_item_content_key));
+        link = passedData.getString(getString(R.string.feed_item_link_key));
+
         return inflater.inflate(R.layout.fragment_rss_feed_item, container, false);
     }
 
@@ -41,11 +56,10 @@ public class RssFeedItemFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.open_in_browser:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getArguments().getString(getString(R.string.feed_item_link_key))));
-                startActivity(browserIntent);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -53,28 +67,22 @@ public class RssFeedItemFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
+
         feedItemView = view.findViewById(R.id.rss_feed_item_wv);
-        
+
         setupFeedItemView();
-        
-        String feedItemTitle = getArguments().getString(getString(R.string.feed_item_title_key));
-        ((ToolbarTitleListener)requireActivity()).updateTitle(feedItemTitle);
-        
-        String feedItemContent = getArguments().getString(getString(R.string.feed_item_content_key));
-        
-        String feedItemLink = getArguments().getString(getString(R.string.feed_item_link_key));
-        
-        if (feedItemContent != null) {
+
+        ((ToolbarTitleListener) requireActivity()).updateTitle(title);
+
+        if (content != null) {
             feedItemView.loadData("<style>img{display: inline; height: auto; max-width: 100%;} " +
-                            "</style>\n" + "<style>iframe{ height: auto; width: auto;}" + "</style>\n" + feedItemContent,
+                            "</style>\n" + "<style>iframe{ height: auto; width: auto;}" + "</style>\n" + content,
                     null, "utf-8");
-        }
-        else {
-            feedItemView.loadUrl(feedItemLink);
+        } else {
+            feedItemView.loadUrl(link);
         }
     }
-    
+
     @SuppressLint("SetJavaScriptEnabled")
     private void setupFeedItemView() {
         feedItemView.getSettings().setLoadWithOverviewMode(true);
