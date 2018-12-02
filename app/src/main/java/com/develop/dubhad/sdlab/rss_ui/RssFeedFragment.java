@@ -3,7 +3,9 @@ package com.develop.dubhad.sdlab.rss_ui;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,7 +35,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
@@ -107,8 +108,19 @@ public class RssFeedFragment extends Fragment implements EditFeedUrlDialogFragme
                 dialogFragment.show(getFragmentManager(), "editFeedUrl");
             }
         });
-        
-        rssFeedRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+
+        Display display = requireActivity().getWindowManager().getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getRealMetrics(metrics);
+        float xInches = metrics.widthPixels / metrics.xdpi;
+        Log.d("DISPLAY SIZE", Float.toString(xInches));
+        if (xInches <= 5) {
+            rssFeedRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        }
+        else {
+            rssFeedRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), (int)Math.ceil(xInches / 3)));
+        }
         rssFeedRecyclerView.setItemAnimator(new DefaultItemAnimator());
         rssFeedRecyclerView.setHasFixedSize(true);
 

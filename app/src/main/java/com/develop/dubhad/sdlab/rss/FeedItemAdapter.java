@@ -75,7 +75,7 @@ public class FeedItemAdapter extends RecyclerView.Adapter<FeedItemAdapter.ViewHo
         ImageView image = holder.image;
         TextView pubDate = holder.pubDate;
         
-        title.setText(feedItem.getTitle());
+        title.setText(Html.fromHtml(feedItem.getTitle()));
 
         description.setText(Html.fromHtml(feedItem.getDescription().replaceAll("<img.+?>", ""))
                 .toString().replaceAll("\n", "").trim());
