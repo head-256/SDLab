@@ -39,6 +39,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
+        android:visibility="gone"
         android:id="@+id/rss_feed_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

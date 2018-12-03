@@ -41,8 +41,6 @@ public class RssFeedFragment extends Fragment implements EditFeedUrlDialogFragme
 
     private final static int EDIT_FEED_URL_DIALOG_REQUEST_CODE = 400;
     private final static String EDIT_FEED_URL_DIALOG_TAG = "editFeedUrl";
-    
-    private boolean errored;
 
     private RecyclerView rssFeedRecyclerView;
 
@@ -122,19 +120,33 @@ public class RssFeedFragment extends Fragment implements EditFeedUrlDialogFragme
             return;
         }
         
-        if (feedItemAdapter == null || !NetworkUtil.isNetworkAvailable(requireContext())) {
+        if (feedItemAdapter == null) {
             loadFeed(FeedUrlManager.getCurrentUrl(requireContext()));
             return;
         }
-
-        if (errored) {
-            setupFeedLoadErrorDisplay();
-            return;
+        
+        if (savedInstanceState == null) {
+            setupInitialStateDisplay();
+        }
+        else {
+            rssFeedRecyclerView.setVisibility(savedInstanceState.getInt("rvVisibility"));
+            rssFeedProgressBar.setVisibility(savedInstanceState.getInt("pbVisibility"));
+            noConnectionBanner.setVisibility(savedInstanceState.getInt("ncbannerVisibility"));
+            rssErrorBanner.setVisibility(savedInstanceState.getInt("rebannerVisibility"));
+            rssFeedSwipeRefreshLayout.setRefreshing(savedInstanceState.getBoolean("srlVisibility"));
         }
         
-        setupInitialStateDisplay();
-        
         refreshRssFeedRecyclerView();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt("rvVisibility", rssFeedRecyclerView.getVisibility());
+        outState.putInt("pbVisibility", rssFeedProgressBar.getVisibility());
+        outState.putBoolean("srlVisibility", rssFeedSwipeRefreshLayout.isRefreshing());
+        outState.putInt("ncbannerVisibility", noConnectionBanner.getVisibility());
+        outState.putInt("rebannerVisibility", rssErrorBanner.getVisibility());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -144,7 +156,6 @@ public class RssFeedFragment extends Fragment implements EditFeedUrlDialogFragme
     }
 
     private void loadFeed(String feedUrl) {
-        errored = false;
         setupStartFeedLoadDisplay();
 
         if (!NetworkUtil.isNetworkAvailable(requireContext())) {
@@ -170,13 +181,14 @@ public class RssFeedFragment extends Fragment implements EditFeedUrlDialogFragme
 
             @Override
             public void onError() {
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        setupFeedLoadErrorDisplay();
-                        errored = true;
-                    }
-                });
+                if (getActivity() != null) {
+                    requireActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setupFeedLoadErrorDisplay();
+                        }
+                    });
+                }
             }
         });
     }

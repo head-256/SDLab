@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements SignInResultListe
         });
 
         setupNavigation();
-        
-        Authentication.signIn(this, "gleb", "1111");
     }
 
     @Override
